@@ -1,0 +1,5 @@
+---
+- name: Installation NTP
+  hosts: all
+  roles:
+    - role: ntp

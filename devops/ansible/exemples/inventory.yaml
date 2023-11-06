@@ -1,0 +1,39 @@
+all:
+  children:
+    debservers:
+      hosts:
+        dockertest2.kilroy.devops.lan: {}
+    webservers:
+      hosts:
+        dockertest3.kilroy.devops.lan: {}
+        dockertest4.kilroy.devops.lan: {}
+    dockerservers:
+      hosts:
+        dockermain.kilroy.devops.lan: {}
+        dockertest2.kilroy.devops.lan: {}
+        dockertest3.kilroy.devops.lan: {}
+        dockertest4.kilroy.devops.lan: {}
+        k8spreprod.kilroy.devops.lan: {}
+        servertest1.kilroy.devops.lan: {}
+        servertest2.kilroy.devops.lan: {}
+        servertest3.kilroy.devops.lan: {}
+    dockernodes:
+      hosts:
+        dockertest2.kilroy.devops.lan: {}
+        dockertest3.kilroy.devops.lan: {}
+        dockertest4.kilroy.devops.lan: {}
+    mysqlservers:
+      hosts:
+        dockertest.kilroy.devops.lan: {}
+    k8s_masters:
+      hosts:
+        k8smaster1.kilroy.devops.lan: {}
+    k8s_nodes:
+      hosts:
+        k8snode1.kilroy.devops.lan: {}
+        k8snode2.kilroy.devops.lan: {}
+        k8snode3.kilroy.devops.lan: {}
+    k8s_servers:
+      children:
+        k8s_masters:
+        k8s_nodes:

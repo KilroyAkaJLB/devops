@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  wshabitation-swarm:
+    image: registry.gitlab.com/kilroywashere.devops/wshabitation/main:latest
+    ports:
+      - "8051:8080"
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - "node.role==worker"
+
+  haproxy-swarm:
+    image: haproxytech/haproxy-debian:2.0
+    ports:
+      - target: 8052
+        published: 8052
+        protocol: tcp
+        mode: host
+    volumes:
+      - /etc/haproxy/:/etc/haproxy/
+    dns: 127.0.0.11
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  keepalived-swarm:
+    image: osixia/keepalived:2.0.20
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW
+    networks:
+      - "host"
+    command: --copy-service
+    volumes:
+      - /etc/keepalived/keepalived.conf:/container/service/keepalived/assets/keepalived.conf
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - "node.role==worker"
+
+networks:
+  host:
+    external: true

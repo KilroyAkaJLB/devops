@@ -1,0 +1,7 @@
+---
+# vars file for roles/mysql-exporter
+mysqld_exporter_version: "0.14.0"
+mysqld_exporter_bin: /usr/local/bin/mysqld_exporter
+mysqld_exporter_user: node-exporter
+mysqld_exporter_group: "{{ mysqld_exporter_user }}"
+mysqld_exporter_dir_conf: /etc/mysqld_exporter

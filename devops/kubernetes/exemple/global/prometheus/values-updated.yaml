@@ -1,0 +1,42 @@
+## Deploy a Prometheus instance
+##
+prometheus:
+  prometheusSpec:
+    ## Prometheus StorageSpec for persistent data
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
+    ##
+    storageSpec:
+      ## Using PersistentVolumeClaim
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 10Gi
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus-storage
+
+    ## SecurityContext holds pod-level security attributes and common container settings.
+    ## This defaults to non root user with uid 1000 and gid 2000.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md
+    ##
+    ## L'utilisateur 1001 a été créé sur la machine ayant le partage nfs
+    securityContext:
+      runAsGroup: 1001
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 1001
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.serviceMonitorSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the servicemonitors created
+    ##
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ## If true, a nil or {} value for prometheus.prometheusSpec.podMonitorSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the podmonitors created
+    ##
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false

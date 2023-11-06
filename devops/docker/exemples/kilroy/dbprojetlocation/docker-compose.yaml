@@ -1,0 +1,133 @@
+version: '3.9'
+
+services:
+
+  mysql_rhhabitation:
+    image: mariadb:10.7
+    container_name: dbrhhabitation
+    hostname: mariadb
+    env_file: ./mariadb/rhhabitation.env
+    ports:
+      - "3311:3306"
+    volumes:
+      - ./database/rhhabitation.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dbrh-network
+    restart: always
+
+  mysql_rhlocation:
+    image: mariadb:10.7
+    container_name: dbrhlocation
+    hostname: mariadb
+    env_file: ./mariadb/rhlocation.env
+    ports:
+      - "3312:3306"
+    volumes:
+      - ./database/rhlocation.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dbrh-network
+    restart: always
+
+  mysql_rhlocuser:
+    image: mariadb:10.7
+    container_name: dbrhlocuser
+    hostname: mariadb
+    env_file: ./mariadb/rhlocuser.env
+    ports:
+      - "3313:3306"
+    volumes:
+      - ./database/rhlocuser.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dbrh-network
+    restart: always
+
+
+  mysqld_exporter_rhhabitation:
+    image: prom/mysqld-exporter:latest
+    container_name: dbrhhabitation_mysqld_exporter
+    environment:
+      - DATA_SOURCE_NAME=${exporter_user}:${exporter_pwd}@(dbrhhabitation:3306)/rhhabitation
+      - collect.info_schema.tablestats=true
+      - collect.global_variables=true
+      - collect.engine_innodb_status=true
+      - collect.info_schema.processlist=true
+      - collect.info_schema.innodb_metrics=true
+      - collect.info_schema.query_response_time=true
+      - collect.info_schema.userstats=true
+      - collect.info_schema.tables=true
+      - collect.perf_schema.tablelocks=true
+      - collect.perf_schema.file_events=true
+      - collect.perf_schema.eventswaits=true
+      - collect.perf_schema.indexiowaits=true
+      - collect.perf_schema.tableiowaits=true
+    ports:
+      - "9104:9104"
+    volumes:
+      - ./mysql-exporter/.my-dbrhhabitation.cnf:/root/.my.cnf
+    networks:
+      - dbrh-network
+    depends_on:
+      - mysql_rhhabitation
+    restart: always
+
+  mysqld_exporter_rhlocation:
+    image: prom/mysqld-exporter:latest
+    container_name: dbrhlocation_mysqld_exporter
+    environment:
+      - DATA_SOURCE_NAME=${exporter_user}:${exporter_pwd}@(dbrhlocation:3306)/rhlocation
+      - collect.info_schema.tablestats=true
+      - collect.global_variables=true
+      - collect.engine_innodb_status=true
+      - collect.info_schema.processlist=true
+      - collect.info_schema.innodb_metrics=true
+      - collect.info_schema.query_response_time=true
+      - collect.info_schema.userstats=true
+      - collect.info_schema.tables=true
+      - collect.perf_schema.tablelocks=true
+      - collect.perf_schema.file_events=true
+      - collect.perf_schema.eventswaits=true
+      - collect.perf_schema.indexiowaits=true
+      - collect.perf_schema.tableiowaits=true
+    ports:
+      - "9105:9104"
+    volumes:
+      - ./mysql-exporter/.my-dbrhlocation.cnf:/root/.my.cnf
+    networks:
+      - dbrh-network
+    depends_on:
+      - mysql_rhlocation
+    restart: always
+
+  mysqld_exporter_rhlocuser:
+    image: prom/mysqld-exporter:latest
+    container_name: dbrhlocuser_mysqld_exporter
+    environment:
+      - DATA_SOURCE_NAME=${exporter_user}:${exporter_pwd}@(dbrhlocuser:3306)/rhlocuser
+      - collect.info_schema.tablestats=true
+      - collect.global_variables=true
+      - collect.engine_innodb_status=true
+      - collect.info_schema.processlist=true
+      - collect.info_schema.innodb_metrics=true
+      - collect.info_schema.query_response_time=true
+      - collect.info_schema.userstats=true
+      - collect.info_schema.tables=true
+      - collect.perf_schema.tablelocks=true
+      - collect.perf_schema.file_events=true
+      - collect.perf_schema.eventswaits=true
+      - collect.perf_schema.indexiowaits=true
+      - collect.perf_schema.tableiowaits=true
+    ports:
+      - "9106:9104"
+    volumes:
+      - ./mysql-exporter/.my-dbrhlocuser.cnf:/root/.my.cnf
+    networks:
+      - dbrh-network
+    depends_on:
+      - mysql_rhlocuser
+    restart: always
+
+
+networks:
+  dbrh-network:
+    driver: bridge
+

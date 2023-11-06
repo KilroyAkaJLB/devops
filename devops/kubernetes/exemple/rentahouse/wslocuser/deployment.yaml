@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wslocuser-deployment
+  namespace: rentahouse
+  labels:
+     app.kubernetes.io/component: web-service
+     app.kubernetes.io/part-of: rentahouse
+spec:
+  selector:
+    matchLabels:
+      app: wslocuser
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: wslocuser
+        app.kubernetes.io/component: web-service
+    spec:
+      containers:
+      - name: wslocuser
+        image: registry.gitlab.com/kilroywashere.devops/wslocuser/main
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "preprod"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+

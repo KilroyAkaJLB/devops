@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-deployment
+  namespace: rentahouse
+  labels:
+    app.kubernetes.io/component: apigateway
+    app.kubernetes.io/part-of: rentahouse
+spec:
+  selector:
+    matchLabels:
+      app: apigateway
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+      - name: apigateway
+        image: registry.gitlab.com/kilroywashere.devops/apigateway/main:latest
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "preprod"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - name: customerapikeys-file
+            mountPath: /customerkeys/
+      volumes:
+      - name: customerapikeys-file
+        configMap:
+          name: customerapikeys-configmap
+

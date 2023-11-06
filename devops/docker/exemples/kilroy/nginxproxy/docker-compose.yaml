@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  nginxproxy:
+    image: nginx:1.23.1
+      #container_name: nginx
+    ports:
+      - '8000:80'
+      - '8443:443'
+    volumes:
+      - ./html/:/etc/nginx/html/
+      - ./includes/:/etc/nginx/includes/
+      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ./conf/conf.d:/etc/nginx/conf.d/ 
+      - /docker/server/nginxproxy/static/habitations:/static/habitations 
+    networks:
+      - nginxproxy-network
+    restart: always
+
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.11
+      #container_name: 'nginx_exporter'
+    #command:
+    #  - -nginx.scrape-uri
+    #  - http://192.168.1.7:8000/metrics
+    environment:
+    - SCRAPE_URI=http://192.168.1.7:8000/metrics
+    ports:
+    - '9113:9113'
+    networks:
+      - nginxproxy-network
+    depends_on:
+      - nginxproxy
+    restart: always
+
+
+networks:
+  nginxproxy-network:
+    driver: bridge

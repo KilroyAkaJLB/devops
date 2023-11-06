@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wslocuser-service
+  namespace: rentahouse
+  labels:
+    app: wslocuser-service
+spec:
+  selector: 
+    app: wslocuser
+  type: NodePort  
+  ports:
+    - name: "wslocuser-metrics"
+      port: 8080
+      targetPort: 8080
+      nodePort: 31013

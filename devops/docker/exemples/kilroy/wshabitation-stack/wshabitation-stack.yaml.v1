@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  wshabitation:
+    image: registry.gitlab.com/kilroywashere.devops/wshabitation/main:latest
+    ports:
+      - "8051:8080"
+    networks:
+      - wshabitation-network
+
+networks:
+  wshabitation-network: {}
+

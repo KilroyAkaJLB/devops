@@ -1,0 +1,15 @@
+//
+// Do any local configuration here
+//
+
+zone "kilroy.devops.lan" {
+    // Serveur maître
+    type master;
+    // Fichier de zone
+    file "db.kilroy.devops.lan";
+};
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+

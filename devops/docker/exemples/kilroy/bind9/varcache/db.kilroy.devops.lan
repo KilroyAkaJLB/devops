@@ -1,0 +1,31 @@
+$TTL    3600
+; Le domaine
+@       IN      SOA     dockertest.kilroy.devops.lan. root.kilroy.devops.lan. (
+                   2022052101           ; Serial
+                         3600           ; Refresh [1h]
+                          600           ; Retry   [10m]
+                        86400           ; Expire  [1d]
+                          600 )         ; Negative Cache TTL [1h]
+; Le serveur de nom
+@       IN      NS      dockertest.kilroy.devops.lan.
+ 
+; Les enregistrements RR
+dockertest  	IN      A       192.168.1.7
+dockertest2  	IN      A       192.168.1.12
+dockertest3  	IN      A       192.168.1.13
+dockertest4	IN      A       192.168.1.14
+redirection	IN      A       192.168.1.8
+dockerpreprod	IN      A       192.168.1.9
+k8spreprod	IN      A       192.168.1.10
+orchestrateur	IN      A       192.168.1.11
+servertest1  	IN      A       192.168.1.21
+servertest2  	IN      A       192.168.1.22
+servertest3  	IN      A       192.168.1.23
+ 
+dns     	IN CNAME dockertest
+registry	IN CNAME dockertest
+manager		IN CNAME dockertest
+worker2		IN CNAME dockertest2
+worker3		IN CNAME dockertest3
+worker4		IN CNAME dockertest4
+

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: wshabitation-servicemonitor
+  namespace: monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  endpoints:
+    - path: /actuator/prometheus
+      interval: 60s
+      port: wshabitation-metrics
+      scheme: http
+      scrapeTimeout: 14s
+  namespaceSelector:
+    matchNames: [rentahouse]
+  selector:
+    matchLabels:
+      app: wshabitation-service

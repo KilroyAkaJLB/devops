@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  wshabitation-swarm:
+    image: registry.gitlab.com/kilroywashere.devops/wshabitation/main:latest
+      # avec endpoint_mode dnsrr il ne faut pas indiqué de ports
+      #ports:
+      #  - "8051:8080"
+    deploy:
+      mode: replicated
+      replicas: 3
+      # dnsRoundRobin est necessaire pour haproxy
+      endpoint_mode: dnsrr
+
+  haproxy-swarm:
+    image: haproxytech/haproxy-debian:2.0
+    ports:
+      - "8052:8052"
+    volumes:
+      - /etc/haproxy/:/etc/haproxy/
+    dns: 127.0.0.11
+    deploy:
+      mode: replicated
+      replicas: 3
+

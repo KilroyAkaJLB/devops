@@ -1,0 +1,10 @@
+---
+
+# Installer php pour nginx
+
+- name: "php installation"
+  apt:
+    name: "php7.4,php7.4-fpm,php-mysql"
+  changed_when: yes
+  notify: "nginx restart"
+

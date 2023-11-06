@@ -1,0 +1,5 @@
+---
+# vars file for ntp
+#
+
+ntp_servers: [ntp.univ-lyon1.fr, ntp.univ-rennes2.fr]

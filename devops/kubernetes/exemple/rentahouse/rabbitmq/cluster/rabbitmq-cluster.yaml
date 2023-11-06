@@ -1,0 +1,25 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq-rentahouse
+  namespace: rabbitmq-system
+spec:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 800m
+      memory: 1Gi
+  service:
+    type: LoadBalancer
+  persistence:
+    storageClassName: managed-nfs-sc
+    storage: 1Gi
+  rabbitmq:
+    additionalConfig: |
+      channel_max = 1700
+      default_user=rabbitmqrh
+      default_pass=abcd4ABCD
+      default_user_tags.administrator = true

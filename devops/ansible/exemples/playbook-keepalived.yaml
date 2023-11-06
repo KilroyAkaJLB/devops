@@ -1,0 +1,15 @@
+---
+- name: Copie du fichier keepalived pour la stack wshabitation-app
+  hosts: dockerservers
+
+  tasks:
+  - name: Creation du repertoire keepalived
+    ansible.builtin.file:
+      path: /etc/keepalived
+      state: directory
+      mode: '0755'
+
+  - name: Copie du fichier keepalived.conf
+    ansible.builtin.copy:
+      src: /docker/configuration/wshabitation-stack/keepalived/keepalived.conf
+      dest: /etc/keepalived/keepalived.conf

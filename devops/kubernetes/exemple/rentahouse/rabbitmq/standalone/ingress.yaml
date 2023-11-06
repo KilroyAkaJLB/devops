@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbitmq
+  namespace: rabbitmq-system
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: rabbitmq.kube.kilroy.devops.lan
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: rabbitmq
+            port:
+              number: 15672
+

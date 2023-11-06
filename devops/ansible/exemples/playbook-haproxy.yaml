@@ -1,0 +1,26 @@
+---
+- name: Copie du fichier haproxy pour la stack wshabitation-app
+  hosts: dockerservers
+
+  tasks:
+  - name: Creation du repertoire haproxy
+    ansible.builtin.file:
+      path: /etc/haproxy
+      state: directory
+      mode: '0755'
+  - name: Creation du repertoire haproxy/errors
+    ansible.builtin.file:
+      path: /etc/haproxy/errors
+      state: directory
+      mode: '0755'
+
+  - name: Copie du fichier haproxy.cfg
+    ansible.builtin.copy:
+      src: /docker/configuration/wshabitation-stack/haproxy/haproxy.cfg
+      dest: /etc/haproxy/haproxy.cfg
+  - name: Copie des fichiers *.http
+    ansible.builtin.copy:
+      src: "{{ item }}"
+      dest: "/etc/haproxy/errors/"
+    with_fileglob:
+      - "/docker/configuration/wshabitation-stack/haproxy/errors/*.http"

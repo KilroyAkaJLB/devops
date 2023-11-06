@@ -1,0 +1,59 @@
+version: "3.2"
+
+services:
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 5306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_db_root
+    secrets:
+      - mysql_db_root
+    networks:
+      - lamp_net
+
+  php-apache:
+    build: './php-apache/'
+    container_name: apache
+    depends_on:
+      - mysql
+    networks:
+      - lamp_net
+    restart: always
+    ports:
+      - 8000:80
+      - 8443:443
+    volumes:
+      - /docker/server/lamp/apache2/log:/var/log/apache2
+      - /docker/server/lamp/apache2/sites-enabled:/etc/apache2/sites-enabled
+      - /docker/server/lamp/apache2/www:/var/www/html
+    networks:
+      - lamp_net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - php-apache
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    restart: always
+    ports:
+      - 8001:80
+    volumes:
+     - /sessions
+    networks:
+      - lamp_net
+
+secrets:
+   mysql_db_root:
+    file: ./mysql_db_root
+
+networks:
+  lamp_net:

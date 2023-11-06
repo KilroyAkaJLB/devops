@@ -1,0 +1,6 @@
+---
+
+- name: "Installation de Docker"
+  hosts: k8s_nodes
+  roles:
+    - role: "docker"

@@ -1,0 +1,21 @@
+
+# Ajout du repos avec Helm
+
+# Obtention des valeurs de défaut
+wget https://raw.githubusercontent.com/kubernetes-sigs/sig-storage-local-static-provisioner/master/helm/provisioner/values.yaml
+
+# Changement des valeurs
+Editez values pour modifer le chemin du stockage :
+
+classes:
+  - name: local-storage # Defines name of storage classes.
+    hostDir: /share/nfs/storage
+    volumeMode: Filesystem
+    fsType: ext4
+    namePattern: "*"
+    isDefaultClass: true
+
+helm template --debug sig-storage-local-static-provisioner/local-static-provisioner -f values.yaml --version 1.0.0 --namespace kube-system > local-volume-provisioner.generated.yaml
+
+kubectl create -f local-volume-provisioner.generated.yaml
+

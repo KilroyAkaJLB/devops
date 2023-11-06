@@ -1,0 +1,4 @@
+hosts:
+  dockertest2.kilroy.devops.lan: {}
+  dockertest3.kilroy.devops.lan: {}
+  dockertest4.kilroy.devops.lan: {}

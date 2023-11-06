@@ -1,0 +1,8 @@
+---
+#1. Cette tâche installe PHP et ses extensions
+- name: "install php packages"
+  apt:
+    name: "php,php-mysql,php-xml,php-mbstrings,php-gd,php-intl"
+    state: latest
+  change_when: yes
+  notify: [ "apache restart" ]

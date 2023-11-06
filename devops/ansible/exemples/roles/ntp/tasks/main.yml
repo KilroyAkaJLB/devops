@@ -1,0 +1,21 @@
+---
+# tasks file for ntp
+#
+
+- name : Installer NTP client
+  package:
+    name: ntp
+    state: present
+
+- name: Configurer NTP
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  notify:
+    - restart ntpd
+
+- name: Verifier lancement ntp
+  service:
+    name: ntp
+    state: started
+    enabled: yes

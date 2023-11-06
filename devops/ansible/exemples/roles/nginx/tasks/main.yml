@@ -1,0 +1,31 @@
+---
+# tasks file for nginx
+#
+
+# Mise à jour de apt
+- name: "apt update"
+  apt:
+    update_cache: yes
+
+# Installer nginx
+- name: "nginx installation"
+  apt:
+    name: "nginx"
+    state: present
+
+- name: "copie du fichier de conf"
+  template:
+    src: "nginx.conf.j2"
+    dest: "/etc/nginx/sites-enabled/default"
+    mode: "0644"
+
+- name: "copie des fichiers php"
+  copy:
+    src: "files/"
+    dest: "/var/www/html/"
+    mode: "0644"
+
+- name: "php installation"
+  import_tasks: "php-install.yaml"
+  when: php_install|default(False)|bool
+

@@ -1,0 +1,65 @@
+version: 1
+
+dn: ou=Utilisateurs,dc=montpellier,dc=lan
+changetype: add
+objectClass: organizationalUnit
+objectClass: top
+ou: Utilisateurs
+
+dn: ou=Pedago,ou=Utilisateurs,dc=montpellier,dc=lan
+changetype: add
+objectClass: organizationalUnit
+objectClass: top
+ou: Pedago
+
+dn: ou=Interne,ou=Utilisateurs,dc=montpellier,dc=lan
+changetype: add
+objectClass: organizationalUnit
+objectClass: top
+ou: Interne
+
+dn: ou=Groupes,dc=montpellier,dc=lan
+changetype: add
+objectClass: top
+objectClass: organizationalUnit
+ou: Groupes
+
+dn: uid=test.v2,ou=Pedago,ou=Utilisateurs,dc=montpellier,dc=lan
+changetype: add
+givenName: Test
+sn: V2
+street: {SSHA}vpTuDWZk+byCibExTRLMca4vZYvqcA8yfKhk5A==
+userPassword: {SSHA}vpTuDWZk+byCibExTRLMca4vZYvqcA8yfKhk5A==
+employeeType: ROLE_USER
+l: B2
+roomNumber: 1
+carLicense: 0
+mail: test.v2@epsi.fr
+uid: test.v2
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: Test V2
+title: 2
+description: SLAM
+businessCategory: BTS
+
+dn: uid=test.v8,ou=Pedago,dc=montpellier,dc=lan
+changetype: add
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Test V8
+sn: V8
+businessCategory: 786
+carLicense: 2020-06-03
+employeeNumber: 1234
+employeeType: ROLE_USER
+givenName: Test
+mail: test.v8@devops.lan
+roomNumber: 120
+telexNumber: 1
+uid: test.v8
+userPassword: {SSHA}vpTuDWZk+byCibExTRLMca4vZYvqcA8yfKhk5A==

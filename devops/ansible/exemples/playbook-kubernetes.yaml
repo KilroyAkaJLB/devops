@@ -1,0 +1,10 @@
+---
+- name: "Installation de Docker"
+  hosts: k8s_servers
+  roles:
+    - role: "docker"
+
+- name: "Installation de Kuberbetes"
+  hosts: k8s_servers
+  roles:
+    - role: "kubernetes"

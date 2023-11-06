@@ -1,0 +1,10 @@
+[Unit]
+Description=MySQL Node Exporter
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mysqld_exporter
+ 
+[Install]
+WantedBy=multi-user.target

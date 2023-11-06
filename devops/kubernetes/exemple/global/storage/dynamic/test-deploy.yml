@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  namespace: test
+  labels:
+    app: nginx-test
+    storage: nfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      labels:
+        app: nginx-test
+    spec:
+      volumes:
+      - name: nginx-volume
+        persistentVolumeClaim:
+          claimName: nfs-test-pvc 
+      containers:
+        - image: nginx
+          name: nginx-test
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: nginx-volume
+            mountPath: /app/
+

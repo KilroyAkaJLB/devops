@@ -1,0 +1,6 @@
+---
+
+- name: "Installation de Prometheus Node Exporter"
+  hosts: dockerservers
+  roles:
+    - role: "node-exporter"

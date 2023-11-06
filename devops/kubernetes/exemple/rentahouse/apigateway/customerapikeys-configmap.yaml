@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customerapikeys-configmap
+  namespace: rentahouse
+data:
+  client-api-keys.json: |
+    [
+      {"routeId": "*","consumerId": "testconsumerCM1","consumerKey": "a-key"},
+      {"routeId": "habitation","consumerId": "testconsumerCM2","consumerKey": "a-key"},
+      {"routeId": "wshabitations","consumerId": "testconsumerCMAdd","consumerKey": "a-key"}
+    ]
+

@@ -1,0 +1,6 @@
+---
+
+- name: "Installation de Prometheus Mysqld Exporter"
+  hosts: mysqlservers 
+  roles:
+    - role: "mysql-exporter"

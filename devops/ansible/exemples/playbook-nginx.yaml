@@ -1,0 +1,7 @@
+---
+
+- name: "Installation nginx"
+  hosts: webservers
+  roles:
+    - role: "nginx"
+      php_install: yes

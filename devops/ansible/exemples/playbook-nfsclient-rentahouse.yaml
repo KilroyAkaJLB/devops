@@ -1,0 +1,29 @@
+---
+- name: Installation de nsf-client pour les applications RentAHouse
+  hosts: k8s_servers
+
+  vars:
+    mountpoint: "/share/nfs/rentahouse"
+
+  tasks:
+  - name: Installation du client
+    ansible.builtin.apt:
+      name:
+        - nfs-common
+        - nfs4-acl-tools
+      state: present
+
+  - name: Creation du repertoire de montage
+    ansible.builtin.file:
+      path:  "{{ mountpoint }}"
+      state: directory
+      mode: '0755'
+
+  - name: Montage du partage
+    ansible.posix.mount:
+      src: "192.168.1.7:/nfsexport/rentahouse"
+      path: "{{ mountpoint }}"
+      fstype: nfs
+      opts: "rw,sync"
+      state: mounted
+

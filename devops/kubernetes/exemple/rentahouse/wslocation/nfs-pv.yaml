@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-wslocation-pvc
+  labels:
+    app.kubernetes.io/name: rentahouse-wslocation
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/share/nfs/rentahouse/wslocation/logs/"
+
