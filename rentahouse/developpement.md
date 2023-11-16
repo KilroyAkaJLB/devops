@@ -9,6 +9,10 @@ Le projet Rent A House
     - en Spring Boot 2.7 et 3.1 avec JPA, JWT, OpenAPI, mise en place de actuator (métriques pour Prometheus)
     - en ASP.Net Core Web API 6.0 avec Entity Framework, JWT, OpenAPI, métrique pour prometheus
 
+Voir 
+- la définition du projet [Rent A House](projet/presentation.md)
+- la partie [DevOps](rentahouse/devops.md )
+- la partie [Système/Réseau](sysres.md)
 
 ### Les microservices
 
@@ -27,7 +31,7 @@ L'application mobile permet de :
 - lister des habitations 
 - localiser les habitations
 - afficher le détail d'une habitation
-- faire une réservationok.png)
+- faire une réservation
 - voir ses locations
 - ![Locations](images/mobile/mrentahouse.gif)
 

@@ -5,7 +5,7 @@
 wget https://raw.githubusercontent.com/kubernetes-sigs/sig-storage-local-static-provisioner/master/helm/provisioner/values.yaml
 
 # Changement des valeurs
-Editez values pour modifer le chemin du stockage :
+Editez values pour modifier le chemin du stockage :
 
 classes:
   - name: local-storage # Defines name of storage classes.

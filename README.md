@@ -13,7 +13,22 @@ Aujourd'hui, je me forme avec la philosophie **DevOps**.
 > [!IMPORTANT]
 > J'ai mis en œuvre mes compétences en développement, système/réseau et **DevOps** 
 > dans mon projet personnel [Rent A House](rentahouse/README.md)
- 
+
+## DevOps
+### Expériences personnelles
+
+> [!NOTE]
+> Mise en place du projet [Rent A House](rentahouse/devops.md ) (côté DevOps)
+
+Mise en place d'une Infrastructure as Code :
+- Docker
+- Ansible
+- Terraform
+- Kubernetes (`On-Premises avec VMware`)
+
+Le projet [Rent A House](rentahouse/devops.md ) m'a permis de mettre en ouvre une grande partie de mes compétences DevOps.
+
+
 ## Développement
 
 ### Expériences personnelles
@@ -72,17 +87,5 @@ J'ai enseigné à des Bac +2 :
 J'enseigne à des Bac +2 :
 - les bases TCP/IP
 - Redondance de routeurs (KeepAlived), LoadBalancing (HAProxy)
-
-## DevOps
-### Expériences personnelles
-
-> [!NOTE]
-> Mise en place du projet [Rent A House](rentahouse/devops.md ) (côté DevOps)
-
-Mise en place d'une Infrastructure as Code :
- - Docker
- - Ansible
- - Terraform
- - Kubernetes (`On-Premises avec VMware`)
 
 
