@@ -11,7 +11,7 @@ Le projet Rent A House
 
 Voir 
 - la définition du projet [Rent A House](projet/presentation.md)
-- la partie [DevOps](rentahouse/devops.md )
+- la partie [DevOps](devops.md )
 - la partie [Système/Réseau](sysres.md)
 
 ### Les microservices

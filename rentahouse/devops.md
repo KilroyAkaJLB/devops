@@ -35,7 +35,7 @@ Voir les [exemples de fichiers](../devops/docker/exemples/kilroy).
 ## Docker Swarm
 Pour la haute disponibilité, j'ai utilisé Docker Swarm avec 1 master et 3 nœuds. J'ai ensuite déployé le microservice 
 WSHabitation (voir les [exemples de fichiers](../devops/docker/exemples/kilroy/wshabitation-stack)) et 
-le monitoring (Prometheus, Grafana), ce monitoring est maintenant sous kubernetes (voir les [exemples de fichiers](../devops/docker/exemples/kilroy/supervision-stack)).
+le monitoring (Prometheus, Grafana), ce monitoring est maintenant sous kubernetes (voir les [exemples de fichiers](../devops/kubernetes/exemple/global/prometheus)).
 
 ## Ansible
 Du fait d'utiliser plusieurs nœuds pour la haute disponibilité, j'ai utilisé Ansible pour automatiser le déploiement de services 
@@ -54,13 +54,13 @@ Pourquoi 9 nœuds me direz-vous ? pour pouvoir faire des tests de déploiements 
 - la montée en charge verticale
 
 Comme c'est une installation On-Premises, plusieurs services n'étaient pas installés (contrairement à une solution Cloud comme GCP) :
-- **Stockage statique **
+- **Stockage statique**
   - Méthode : [installation d'un provisionner local](https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner/blob/master/helm/README.md)
   - Voir les [exemples de fichiers](../devops/kubernetes/exemple/global/storage/static) avec un stockage NFS.
 - **Stockage dynamique par défaut**
   - Méthode : [Installation d'un provisionner NFS](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner)
   - Voir les [exemples de fichiers](../devops/kubernetes/exemple/global/storage/dynamic) avec un stockage NFS.
-- Load Balancer : mise en place [Ingress](../devops/kubernetes/exemple/global/ingress) . Je fais des patchs pour l'adresse IP.
+- Load Balancer : mise en place [Ingress](../devops/kubernetes/exemple/global/ingress/nginx). Je fais des patchs pour l'adresse IP.
 - Gateway API : mise en place de [nginx-gateway-fabric](../devops/kubernetes/exemple/global/gateway-api/nginx)
 - Dashboard (Observabilité)
     - Méthode : [Installation du dashboard de Kubernetes](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
