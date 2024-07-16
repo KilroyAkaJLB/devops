@@ -1,0 +1,54 @@
+
+## Controller default values
+controller:
+  ## Deployment or DaemonSet pod mode
+  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+  kind: Deployment    # can be 'Deployment' or 'DaemonSet'
+  replicaCount: 4
+  
+  # Gateway API controller, not available in K8s as default but can be installed
+  # ref: https://gateway-api.sigs.k8s.io/
+  # ref: https://gateway-api.sigs.k8s.io/guides/#installing-a-gateway-controller
+  kubernetesGateway:
+    enabled: true
+    gatewayControllerName: haproxy.org/gateway-controller
+
+  ## Horizontal Pod Scaler
+  ## Only to be used with Deployment kind
+  ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+  autoscaling:
+    enabled: false
+    minReplicas: 4
+    maxReplicas: 18
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  extraArgs:
+    - --disable-ipv6
+
+  ## Controller Service configuration
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/
+  service:
+    enabled: true
+    type: NodePort  #LoadBalancer
+
+    ## Service nodePorts to use for http, https and stat
+    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/
+    ## If empty, random ports will be used
+    nodePorts:
+      http: 30180
+      https: 30143
+      stat: 30124
+    ## Port d'écoute pour Gateway API
+    tcpPorts:
+      - name: listener1
+        protocol: TCP
+        port: 8000
+        targetPort: 8000
+        nodePort: 30188
+
+    ## LoadBalancer IP
+    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+    # loadBalancerIP: "192.168.100.40"
+

@@ -1,0 +1,26 @@
+---
+- name: Mise à jour des cibles prometheus dans la configuration des masters kubernetes
+  hosts: k8s_masters
+
+  vars:
+    k8s_master_vip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+  tasks:
+  - name: Fixe la configuration kube-controller-manager
+    ansible.builtin.lineinfile:
+      path: /etc/kubernetes/manifests/kube-controller-manager.yaml
+      regexp: '^(.*)bind-address=127.0.0.1'
+      line:   '    - --bind-address=0.0.0.0'
+      
+
+  - name: Fixe la configuration kube-etcd
+    ansible.builtin.lineinfile:
+      path: /etc/kubernetes/manifests/etcd.yaml
+      regexp: '^(.*)listen-metrics-urls=http://127.0.0.1:2381'
+      line:   '    - --listen-metrics-urls=http://127.0.0.1:2381,http://{{ k8s_master_vip }}:2381'
+
+  - name: Fixe la configuration kube-scheduler
+    ansible.builtin.lineinfile:
+      path: /etc/kubernetes/manifests/kube-scheduler.yaml
+      regexp: '^(.*)bind-address=127.0.0.1'
+      line:   '    - --bind-address=0.0.0.0'

@@ -1,0 +1,15 @@
+# cat haproxy-exporter.yaml
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: haproxy-kubernetes
+  namespace: monitoring
+spec:
+  #  scrapeInterval: 5s
+  metricsPath: "/metrics"
+  staticConfigs:
+  - targets:
+    - '192.168.100.41:8044'
+    - '192.168.100.42:8044'
+    - '192.168.100.43:8044'
+

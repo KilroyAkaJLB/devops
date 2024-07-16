@@ -1,0 +1,41 @@
+nginxGateway:
+
+  # -- The number of replicas of the NGINX Gateway Fabric Deployment.
+  replicaCount: 2
+
+
+service:
+  # -- Creates a service to expose the NGINX Gateway Fabric pods.
+  create: true
+  # -- The type of service to create for the NGINX Gateway Fabric.
+  type: NodePort
+  # -- The externalTrafficPolicy of the service. The value Local preserves the client source IP.
+  externalTrafficPolicy: Local
+  # -- The annotations of the NGINX Gateway Fabric service.
+  annotations: {}
+
+  # -- A list of ports to expose through the NGINX Gateway Fabric service. Update it to match the listener ports from
+  # your Gateway resource. Follows the conventional Kubernetes yaml syntax for service ports.
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+      nodePort: 30081
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+      nodePort: 30044
+    - port: 9114
+      targetPort: 9114
+      protocol: TCP
+      name: metrics
+
+metrics:
+  # -- Enable exposing metrics in the Prometheus format.
+  enable: true
+  # -- Set the port where the Prometheus metrics are exposed. Format: [1024 - 65535]
+  # Le port 9113 est deja pris par NGinx-Ingress
+  port: 9114
+

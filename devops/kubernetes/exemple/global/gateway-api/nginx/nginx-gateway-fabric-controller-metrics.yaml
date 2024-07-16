@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: nginx-gateway-fabric
+    app.kubernetes.io/name: nginx-gateway-fabric-metric
+    app.kubernetes.io/part-of: nginx-gateway-fabric
+  name: nginx-gateway-fabric-controller-metrics
+  namespace: nginx-gateway
+spec:
+  ports:
+  - name: metrics
+    port: 9114
+    protocol: TCP
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/instance: nginx-gateway-fabric
+    app.kubernetes.io/name: nginx-gateway-fabric
+  type: ClusterIP

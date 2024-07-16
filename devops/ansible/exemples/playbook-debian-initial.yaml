@@ -1,0 +1,37 @@
+---
+- name: Installation des paquets vim et ssh. Configuration de ssh
+  hosts: debian
+
+  vars:
+    mountpoint: "/share/nfs/supervision"
+
+  tasks:
+  - name: Installation des paquets vim et ssh
+    ansible.builtin.apt:
+      name:
+        - vim
+        - ssh
+      state: present
+
+  - name: Configuration de ssh
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: "^PermitRootLogin"
+      line: "PermitRootLogin yes"
+    notify: restart ssh
+
+  - name: Configuration de vim - syntax
+      path: /etc/vim/vimrc
+      regexp: "^#syntax on"
+      line: "syntax on"
+ 
+  - name: Configuration de vim - background
+      path: /etc/vim/vimrc
+      regexp: "^#set background=dark"
+      line: "set background=dark"
+
+handlers:
+  - name: restart ssh
+    service:
+      name: ssh
+      state: restarted

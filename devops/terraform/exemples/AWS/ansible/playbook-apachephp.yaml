@@ -1,0 +1,14 @@
+---
+
+# Installation de Apache et PHP sur AL20203
+- name: "Installation apache et PHP"
+  hosts: webservers
+  roles:
+    - role: "apachephp"
+      php_install: yes
+
+# Copie des fichiers PHP
+- hosts: webservers
+  tasks:
+    - name: "Copie des fichiers PHP"
+      include_tasks: tasks/copy-php-files.yaml

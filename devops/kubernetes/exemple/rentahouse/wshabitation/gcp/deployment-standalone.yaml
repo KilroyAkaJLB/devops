@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wshabitation-deployment
+  namespace: rentahouse
+spec:
+  selector:
+    matchLabels:
+      app: wshabitation
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: wshabitation
+    spec:
+      containers:
+      - name: wshabitation
+        image: registry.gitlab.com/kilroywashere.devops/wshabitation/main
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "gcp"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "50Mi"

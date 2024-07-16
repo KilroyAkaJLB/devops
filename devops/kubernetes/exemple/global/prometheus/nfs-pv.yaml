@@ -8,11 +8,11 @@ metadata:
     app.kubernetes.io/name: prometheus
     operator.prometheus.io/name: prometheus-stack-kube-prom-prometheus
 spec:
-  storageClassName: local-storage
+  storageClassName: static-nfs-storage
   capacity:
     storage: 10Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/share/nfs/storage/prometheus"
+    path: "/share/nfs/epsi/prometheus"
 

@@ -5,6 +5,8 @@ fullnameOverride: ""
 rbac:
   # rbac.create: `true` if rbac resources should be created
   create: true
+  # list of additional rbac rules that may be needed by init containers
+  extraRules: []
 
 # Defines whether to generate a serviceAccount
 serviceAccount:
@@ -28,15 +30,17 @@ useNodeNameOnly: false
 # 2*minResyncPeriod. Default: 5m0s.
 #minResyncPeriod: 5m0s
 
+# Additional volumes to create, for the default container and init containers
+# to consume
+additionalVolumes: []
+
 # Mount the host's `/dev/` by default so that block device symlinks can be
 # resolved by the containers
 mountDevVolume: true
 
-# A mapping of additional HostPath volume names to host paths to create, for
-# your init container to consume
-additionalHostPathVolumes: {}
-#  provisioner-proc: /proc
-#  provisioner-mnt: /mnt
+# Additional volumes to mount to the default container, the volumes should
+# either be host paths or defined by additionalVolumes
+additionalVolumeMounts: []
 
 # Map of label key-value pairs to apply to the PVs created by the
 # provisioner. Uncomment to add labels to the list.
@@ -48,10 +52,10 @@ enableWindows: false
 
 # Configuration for classes of static volumes.
 classes:
-  - name: static-nfs-storage # Defines name of storage classes.
+  - name: fast-disks # Defines name of storage classes.
     # Path on the host where local volumes of this storage class are mounted
     # under.
-    hostDir: /share/nfs/storage
+    hostDir: /mnt/fast-disks
     # Optionally specify mount path of local volumes. By default, we use same
     # path as hostDir in container.
     # mountDir: /mnt/fast-disks
@@ -65,6 +69,8 @@ classes:
     fsType: ext4
     # File name pattern to discover. By default, discover all file names.
     namePattern: "*"
+    # Restrict topology of provisioned volumes to specific labels
+    allowedTopologies:
     blockCleanerCommand:
       #  Do a quick reset of the block device during its cleanup.
       #  - "/scripts/quick_reset.sh"
@@ -79,9 +85,9 @@ classes:
       # Uncomment to create storage class object with default configuration.
       # storageClass: true
       # Uncomment to create storage class object and configure it.
-    storageClass:
-      reclaimPolicy: Delete # Available reclaim policies: Delete/Retain, defaults: Delete.
-      isDefaultClass: true # set as default class
+      # storageClass:
+      # reclaimPolicy: Delete # Available reclaim policies: Delete/Retain, defaults: Delete.
+      # isDefaultClass: true # set as default class
 
 # Defines annotations for each Pod in the DaemonSet.
 podAnnotations: {}
@@ -89,7 +95,7 @@ podAnnotations: {}
 podLabels: {}
 
 # Defines Provisioner's image name including container registry.
-image: registry.k8s.io/sig-storage/local-volume-provisioner:v2.5.0
+image: registry.k8s.io/sig-storage/local-volume-provisioner:v2.6.0
 
 # Defines Image download policy, see kubernetes documentation for available values.
 # imagePullPolicy: Always
@@ -124,7 +130,8 @@ affinity: {}
 #
 # If configured, resources will set the requests/limits field to the Daemonset PodSpec.
 # Ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
-resources: {}
+resources:
+  {}
   # limits:
   #   memory: "512Mi"
   #   cpu: "1000m"
@@ -134,6 +141,7 @@ resources: {}
 #
 # If set to false, containers created by the Provisioner Daemonset will run without extra privileges.
 privileged: true
+
 # Any init containers can be configured here.
 # Ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 initContainers: []

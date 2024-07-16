@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: nginx-gateway-fabric
+    app.kubernetes.io/name: nginx-gateway-fabric-servicemonitor
+    app.kubernetes.io/part-of: nginx-gateway-fabric
+  name: nginx-gateway-fabric-controller-servicemonitor
+  namespace: nginx-gateway
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - nginx-gateway
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: nginx-gateway-fabric
+      app.kubernetes.io/name: nginx-gateway-fabric
+

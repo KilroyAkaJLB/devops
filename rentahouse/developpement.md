@@ -36,3 +36,5 @@ L'application mobile permet de :
 - ![Locations](images/mobile/mrentahouse.gif)
 
 ### L'application web
+
+L'application web sous Angular en est encore à ses prémices.

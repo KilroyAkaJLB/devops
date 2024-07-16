@@ -6,8 +6,8 @@ metadata:
 data:
   client-api-keys.json: |
     [
-      {"routeId": "*","consumerId": "testconsumerCM1","consumerKey": "a-key"},
-      {"routeId": "habitation","consumerId": "testconsumerCM2","consumerKey": "a-key"},
-      {"routeId": "wshabitations","consumerId": "testconsumerCMAdd","consumerKey": "a-key"}
+      {"routeId": "*","consumerId": "testconsumerCM1","consumerKey": "cm-lm8jRUT63krn9r"},
+      {"routeId": "habitation","consumerId": "testconsumerCM2","consumerKey": "cm-fe68JNef73hR7klm"},
+      {"routeId": "wshabitations","consumerId": "testconsumerCMAdd","consumerKey": "cm-Addfe68JNef73hR7klm"}
     ]
 

@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: HTTPRoute
+metadata:
+  name: coffee-route
+  namespace: test
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: coffee-gateway
+      namespace: test
+  rules:
+    - backendRefs:
+        - group: ''
+          kind: Service
+          name: coffee-service
+          port: 80
+          weight: 10
+

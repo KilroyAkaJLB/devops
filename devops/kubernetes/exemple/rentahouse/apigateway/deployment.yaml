@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: apigateway
-        image: registry.gitlab.com/kilroywashere.devops/apigateway/main:latest
+        image: registry.gitlab.com/rentahouse1/apigateway/main:latest
         env:
           - name: SPRING_PROFILES_ACTIVE
             value: "preprod"
@@ -27,6 +27,13 @@ spec:
         volumeMounts:
           - name: customerapikeys-file
             mountPath: /customerkeys/
+        resources:
+          limits:
+            cpu: "400m"
+            memory: "256Mi"
+          requests:
+            cpu: "200m"
+            memory: "50Mi"
       volumes:
       - name: customerapikeys-file
         configMap:

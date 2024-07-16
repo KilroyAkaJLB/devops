@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wslocation-deployment
+  namespace: rentahouse
+  labels:
+    app.kubernetes.io/component: web-service
+    app.kubernetes.io/part-of: rentahouse
+spec:
+  selector:
+    matchLabels:
+      app: wslocation
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: wslocation
+    spec:
+      volumes:
+      - name: host-mapped
+        persistentVolumeClaim:
+          claimName: rentahouse-pvc
+      containers:
+      - name: wslocation
+        image: registry.gitlab.com/kilroywashere.devops/wslocation/main
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Preprod"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+            # name must match the volume name below
+            - name: host-mapped
+              mountPath: "/app/logs"
+        livenessProbe:
+          httpGet:
+            path: /healthz/liveness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        readinessProbe:
+          httpGet:
+            path: /healthz/readiness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 120

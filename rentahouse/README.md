@@ -23,3 +23,5 @@ Le projet Rent A House a
 [Voir le descriptif pour le développement](developpement.md).
 
 ## Les services DevOps
+
+Les services DevOps sont présentés [ici](devops.md)

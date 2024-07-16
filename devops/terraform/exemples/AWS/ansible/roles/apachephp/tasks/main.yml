@@ -1,0 +1,41 @@
+---
+# tasks file for apachephp
+
+- name: "Upgrade all packages"
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+  become: true
+
+#1. Cette tâche permet d’installer Apache (httpd) à l’aide du module dnf
+- name: "Install the latest version of Apache"
+  ansible.builtin.dnf:
+    name: httpd
+    state: latest
+  become: true
+
+- name: "Ajout du groupe apache a l'utilisateur ec2-user"
+  ansible.builtin.user:
+    name: ec2-user
+    groups: apache
+    append: yes
+  become: true
+
+#2. Cette tâche active le service Apache
+- name: "apache service activation"
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+  become: true
+
+#3. Cette tâche fait appel à un autre fichier de configuration pour installer PHP. Elle est exécutée uniquement
+# si la variable php_install est à vraie (par défaut, elle est à faux)
+- include_tasks: "php-install.yaml"
+  when: php_install|default(False)|bool
+
+- name: "Restart Apache"
+  service:
+    name: httpd
+    state: restarted
+  become: true

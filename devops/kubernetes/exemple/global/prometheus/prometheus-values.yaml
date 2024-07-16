@@ -1,0 +1,51 @@
+# Default values for kube-prometheus-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Deploy a Prometheus instance
+##
+prometheus:
+  ## Settings affecting prometheusSpec
+  ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
+  ##
+  prometheusSpec:
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.ruleSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the PrometheusRule resources created
+    ##
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+
+    ## Prometheus StorageSpec for persistent data
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
+    ##
+    storageSpec: 
+    ## Using PersistentVolumeClaim
+    ##
+      volumeClaimTemplate:
+        spec:
+    #      storageClassName: static-nfs-storage
+    #      accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: prometheus
+
+    ## SecurityContext holds pod-level security attributes and common container settings.
+    ## This defaults to non root user with uid 1000 and gid 2000.
+    ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md
+    ##
+    securityContext:
+      runAsGroup: 1001
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 1001
+      seccompProfile:
+        type: RuntimeDefault
+

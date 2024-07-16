@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wslocation-deployment
+  namespace: rentahouse
+  labels:
+    app.kubernetes.io/component: web-service
+    app.kubernetes.io/part-of: rentahouse
+spec:
+  selector:
+    matchLabels:
+      app: wslocation
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: wslocation
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      volumes:
+      - name: host-mapped
+        persistentVolumeClaim:
+          claimName: rentahouse-pvc
+      containers:
+      - name: wslocation
+        image: registry.gitlab.com/kilroywashere.devops/wslocation/main
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Preprod"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+            # name must match the volume name below
+            - name: host-mapped
+              mountPath: "/app/logs"
+        livenessProbe:
+          httpGet:
+            path: /healthz/liveness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        readinessProbe:
+          httpGet:
+            path: /healthz/readiness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 120
+      - name: cloud-sql-proxy
+        # It is recommended to use the latest version of the Cloud SQL Auth Proxy
+        # Make sure to update on a regular schedule!
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+        args:
+          # If connecting from a VPC-native GKE cluster, you can use the
+          # following flag to have the proxy connect over private IP
+          - "--private-ip"
+          # Enable structured logging with LogEntry format:
+          - "--structured-logs"
+          # Replace DB_PORT with the port the proxy should listen on
+          - "--port=3306"
+          - "rentahouse34800:us-central1:rentahouse-instance"
+        securityContext:
+          # The default Cloud SQL Auth Proxy image runs as the
+          # "nonroot" user and group (uid: 65532) by default.
+          runAsNonRoot: true
+        resources:
+          requests:
+            cpu: "0.5"
+            memory: "500Mi"
+

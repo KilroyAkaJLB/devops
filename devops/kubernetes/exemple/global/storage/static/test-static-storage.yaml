@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-pv
+  namespace: test
+spec:
+  storageClassName: static-nfs-storage
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    # Sur le répertoire de partage, créer le nouveau répertoire
+    # mkdir /share/nfs/epsi/test
+    path: "/share/nfs/epsi/test"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-pv-claim
+  namespace: test
+spec:
+  storageClassName: static-nfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-storage-pod
+  namespace: test
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: nginx-pv-claim
+  containers:
+    - name: task-storage-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+

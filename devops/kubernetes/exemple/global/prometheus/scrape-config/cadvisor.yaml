@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: docker100.5-cadvisor
+  namespace: monitoring
+spec:
+  #  scrapeInterval: 5s
+  staticConfigs:
+  - targets:
+    - '192.168.100.5:8080'
+

@@ -1,0 +1,21 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq-general
+  namespace: rabbitmq-system
+spec:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 800m
+      memory: 1Gi
+  rabbitmq:
+    additionalConfig: |
+      log.console.level = info
+      channel_max = 1700
+  service:
+    type: ClusterIP
+

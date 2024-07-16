@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wshabitation-deployment
+  namespace: rentahouse
+  labels:
+    app.kubernetes.io/component: web-service
+    app.kubernetes.io/part-of: rentahouse
+      #app.kubernetes.io/component: metrics
+    app.kubernetes.io/instance: prometheus-stack
+    jobLabel: wshabitation
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: wshabitation
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: wshabitation
+        app.kubernetes.io/component: metrics
+        app.kubernetes.io/instance: prometheus-stack
+        jobLabel: wshabitation
+        release: prometheus-stack
+    spec:
+      containers:
+      - name: wshabitation
+        image: registry.gitlab.com/rentahouse1/wshabitation/main:latest
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "preprod"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 120
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "300m"
+            memory: "200Mi"
+
