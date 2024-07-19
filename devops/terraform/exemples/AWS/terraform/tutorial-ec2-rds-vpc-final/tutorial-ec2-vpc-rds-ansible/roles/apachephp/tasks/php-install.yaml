@@ -1,0 +1,9 @@
+---
+#1. Cette tâche installe PHP et ses extensions
+- name: "install php packages"
+  ansible.builtin.apt:
+    #name: "mariadb105,php,php-pdo,php-mysql"
+    name: "default-mysql-client,php8.2,php8.2-mysql"
+    state: latest
+  become: true
+  notify: [ "apache restart" ]

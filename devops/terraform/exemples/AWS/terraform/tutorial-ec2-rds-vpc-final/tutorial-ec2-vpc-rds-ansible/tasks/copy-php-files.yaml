@@ -1,0 +1,23 @@
+---
+
+- name: AWS vars
+  ansible.builtin.include_vars: aws_vars.yaml
+
+# Création du fichier dbinfo.inc
+- name: Creating a file with content
+  ansible.builtin.template:
+    src: "dbinfo.inc.j2"
+    dest: "/var/www/html/dbinfo.inc"
+  become: true
+
+
+
+# Copy php to remote host
+- name: "Copie des fichier php"
+  ansible.builtin.copy:
+    src: "../phpfiles/"
+    dest: "/var/www/html/"
+    owner: admin
+    group: www-data
+    mode: u+rw,g-x,o-rwx
+  become: true

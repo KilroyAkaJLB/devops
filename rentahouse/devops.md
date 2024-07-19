@@ -107,7 +107,7 @@ J'ai modifié le service WSHabitation pour qu'il utilise :
 
 ## Amazon Web Services
 Pour enrichir mes connaissances du cloud, j'ai fait différents tests sur AWS :
-- déploiement d'une instance EC2, d'un VPC, d'une base de données RDS avec [Terraform](../devops/terraform/exemples/AWS/terraform/tutorial-ec2-vps-rds-terraform) et [Ansible](../devops/terraform/exemples/AWS/terraform/tutorial-ec2-vps-rds-ansible) pour les services Apache et PHP 
+- déploiement d'une instance EC2, d'un VPC, d'une base de données RDS avec [Terraform et Ansible](../devops/terraform/exemples/AWS/terraform/tutorial-ec2-rds-vpc-final) pour les services Apache et PHP 
 - les fonctions [lambdas](../devops/terraform/exemples/AWS/lambda)
 
 

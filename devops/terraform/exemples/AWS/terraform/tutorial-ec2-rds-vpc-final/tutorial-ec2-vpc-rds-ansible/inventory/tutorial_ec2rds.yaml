@@ -1,0 +1,5 @@
+
+webservers:
+  hosts:
+    tutorial_ec2rds-ec2:
+      ansible_host: ec2-51-20-69-179.eu-north-1.compute.amazonaws.com

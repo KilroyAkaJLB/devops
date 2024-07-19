@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/devops/terraform/exemples/AWS/terraform/tutorial-ec2-rds-vps" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/devops/terraform/exemples/AWS/terraform/tutorial-ec2-vps-rds-ansible" vcs="Git" />
   </component>
 </project>

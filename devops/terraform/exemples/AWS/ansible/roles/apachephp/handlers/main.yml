@@ -1,7 +1,0 @@
----
-# handlers file for apachephp
-- name: "apache restart"
-  service:
-    name: httpd
-    state: restarted
-  become: true
