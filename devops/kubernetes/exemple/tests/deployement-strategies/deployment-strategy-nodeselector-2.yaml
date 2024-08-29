@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strategy-nodeselector-2
+  namespace: test
+  labels:
+    app.kubernetes.io/component: "application"
+    app.kubernetes.io/name: "hello-world"
+    app.kubernetes.io/part-of: "demo"
+    app.kubernetes.io/version: "2.2.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strategy-nodeselector-2
+  template:
+    metadata:
+      labels:
+        app: strategy-nodeselector-2
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key : ram
+                operator: In
+                values:
+                - 4go
+              - key: diskspace
+                operator: In
+                values:
+                - 120go
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: cpu
+                operator: NotIn
+                values:
+                - low
+      containers:
+      - name: strategy-nodeselector
+        image: infrastructureascode/hello-world:2.2.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

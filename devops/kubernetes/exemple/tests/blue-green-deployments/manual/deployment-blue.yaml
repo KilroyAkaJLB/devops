@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-bg-app-blue
+  namespace: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-bg-app
+      release: v1
+  template:
+    metadata:
+      labels:
+        app: demo-bg-app
+        release: v1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+

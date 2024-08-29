@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: wslocuser-route
+  namespace: rentahouse
+spec:
+  parentRefs:
+  - name: rentahouse-gateway
+#    sectionName: http
+  hostnames:
+  - "wslocuser.rah.kube.kilroy.devops.lan"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: wslocuser-service
+      port: 8080

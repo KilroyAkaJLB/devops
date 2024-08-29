@@ -10,4 +10,3 @@ spec:
     port: 80
     protocol: HTTP
     hostname: "*.rah.kube.kilroy.devops.lan"
-

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strategy-nodeselector-4
+  namespace: test
+  labels:
+    app.kubernetes.io/component: "application"
+    app.kubernetes.io/name: "hello-world"
+    app.kubernetes.io/part-of: "demo"
+    app.kubernetes.io/version: "2.2.0"
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: strategy-nodeselector-4
+  template:
+    metadata:
+      labels:
+        app: strategy-nodeselector-4
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key : app
+                operator: In
+                values:
+                - strategy-nodeselector
+            topologyKey: "topology.kubernetes.io/zone"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key : app
+                operator: In
+                values:
+                - strategy-nodeselector
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: strategy-nodeselector
+        image: infrastructureascode/hello-world:2.4.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

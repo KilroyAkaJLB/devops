@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: demo-bluegreen-app
+  namespace: test
+  labels:
+    app: demo-bg-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-bg-app
+  template:
+    metadata:
+      labels:
+        app: demo-bg-app
+        release: v1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+  strategy:
+    blueGreen:
+      activeService: demo-bg-app
+      previewService: demo-bg-app-preview
+      autoPromotionEnabled: false

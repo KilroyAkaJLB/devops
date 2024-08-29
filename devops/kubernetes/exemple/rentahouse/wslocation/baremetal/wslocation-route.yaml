@@ -1,20 +1,19 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: wshabitation-route
+  name: wslocation-route
   namespace: rentahouse
 spec:
   parentRefs:
   - name: rentahouse-gateway
-    sectionName: http
+#    sectionName: http
   hostnames:
-  - "wshabitation.rah.kube.kilroy.devops.lan"
+  - "wslocation.rah.kube.kilroy.devops.lan"
   rules:
   - matches:
     - path:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: wshabitation-service
-      port: 8080
-
+    - name: wslocation-service
+      port: 80

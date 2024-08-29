@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-bg-app
+  namespace: test
+  labels:
+    release: v2
+spec:
+  selector:
+    app: demo-bg-app
+    release: v2
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30500

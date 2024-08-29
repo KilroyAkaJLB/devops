@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strategy-nodeselector-3
+  namespace: test
+  labels:
+    app.kubernetes.io/component: "application"
+    app.kubernetes.io/name: "hello-world"
+    app.kubernetes.io/part-of: "demo"
+    app.kubernetes.io/version: "2.2.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strategy-nodeselector-3
+  template:
+    metadata:
+      labels:
+        app: strategy-nodeselector-3
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key : app
+                operator: In
+                values:
+                - strategy-nodeselector
+            topologyKey: "topology.kubernetes.io/zone"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key : app
+                  operator: In
+                  values:
+                  - strategy-nodeselector
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: strategy-nodeselector
+        image: infrastructureascode/hello-world:2.3.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
